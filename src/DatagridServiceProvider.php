@@ -28,12 +28,12 @@ class DatagridServiceProvider extends ServiceProvider {
 	 */
 	public function register() {
 		// Register the HtmlServiceProvider
-		App::register('Illuminate\Html\HtmlServiceProvider');
+		App::register('Collective\Html\HtmlServiceProvider');
 
 		// Add aliases to Form/Html Facade
 		$loader = AliasLoader::getInstance();
-		$loader->alias('Form', 'Illuminate\Html\FormFacade');
-		$loader->alias('HTML', 'Illuminate\Html\HtmlFacade');
+		$loader->alias('Form', 'Collective\Html\FormFacade');
+		$loader->alias('HTML', 'Collective\Html\HtmlFacade');
 
 		// Add alias for datagrid
 		$loader->alias('Datagrid', 'Aginev\Datagrid\Datagrid');

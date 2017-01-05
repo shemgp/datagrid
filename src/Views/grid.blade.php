@@ -91,14 +91,11 @@
 
 				@foreach ($grid->getColumns() as $col)
 					<td data-dg-col="{{ $col->getKey() }}" {!! $col->getAttributesHtml() !!}>
-						@if ($row->dataIsNotNull($col->getKey(true)))
-							@if ($col->hasWrapper())
-								{!! $col->wrapper($row->{$col->getKey(true)}, $row) !!}
-							@else
-								{!! $row->{$col->getKey(true)} !!}
-							@endif
-						@elseif($col->getKey(true) === 'actions')
-						    {!! $col->wrapper($row->{$col->getKey(true)}, $row) !!}
+						<?php $value = $row->dataIsNotNull($col->getKey(true)) ? $row->{$col->getKey(true)} : null; ?>
+						@if ($col->hasWrapper())
+							{!! $col->wrapper($value, $row) !!}
+						@else
+							{!! $value !!}
 						@endif
 					</td>
 				@endforeach

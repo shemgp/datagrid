@@ -91,10 +91,12 @@
 
 				@foreach ($grid->getColumns() as $col)
 					<td data-dg-col="{{ $col->getKey() }}" {!! $col->getAttributesHtml() !!}>
-						@if ($col->hasWrapper())
-							{!! $col->wrapper($row->{$col->getKey(true)}, $row) !!}
-						@else
-							{!! $row->{$col->getKey(true)} !!}
+						@if ($row->dataIsNotNull($col->getKey(true)))
+							@if ($col->hasWrapper())
+								{!! $col->wrapper($row->{$col->getKey(true)}, $row) !!}
+							@else
+								{!! $row->{$col->getKey(true)} !!}
+							@endif
 						@endif
 					</td>
 				@endforeach

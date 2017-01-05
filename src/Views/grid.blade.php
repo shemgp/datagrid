@@ -97,6 +97,8 @@
 							@else
 								{!! $row->{$col->getKey(true)} !!}
 							@endif
+						@elseif($col->getKey(true) === 'actions')
+						    {!! $col->wrapper($row->{$col->getKey(true)}, $row) !!}
 						@endif
 					</td>
 				@endforeach

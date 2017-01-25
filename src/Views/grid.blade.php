@@ -43,7 +43,19 @@
 								@endif
 							</th>
 						@else
-							<th data-dg-col="{{ $col->getKey() }}">&nbsp;</th>
+							<th data-dg-col="{{ $col->getKey() }}" {!! $col->getAttributesHtml() !!}>
+								@if ($col->isSortable())
+									@if ($row->dataIsNotNull($col->getKey(true)))
+										@if ($col->hasWrapper())
+											{!! $col->wrapper($row->{$col->getKey(true)}, $row) !!}
+										@else
+											{!! $row->{$col->getKey(true)} !!}
+										@endif
+									@endif
+								@else
+									{{ $col->getTitle() }}
+								@endif
+							</th>
 						@endif
 					@else
 						<th data-dg-col="actions">

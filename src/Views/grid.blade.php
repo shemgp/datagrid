@@ -21,13 +21,13 @@
 
 				@foreach ($grid->getColumns() as $col)
 					@if ($col->isAction() === false)
-						<th data-dg-col="{{ $col->getKey() }}" {!! $col->getAttributesHtml() !!}>
+						<th data-dg-col="{{ $col->getKey() }}" {!! $col->getAttributesHtml() !!} style="white-space: nowrap;">
 							@if ($col->isSortable())
-								<a href="{{ Datagrid::getCurrentRouteLink($grid->getSortParams($col->getKey())) }}">{!! $col->getTitle() !!}<i class="glyphicon @if (\Input::get('f.order_by', '') == $col->getKey() && \Input::get('f.order_dir', 'ASC') == 'ASC') glyphicon-sort-by-attributes-alt @elseif (\Input::get('f.order_by', '') == $col->getKey() && \Input::get('f.order_dir', 'ASC') == 'DESC') glyphicon-sort-by-attributes @else glyphicon-sort @endif"></i></a>
+								<a href="{{ Datagrid::getCurrentRouteLink($grid->getSortParams($col->getKey())) }}">{!! $col->getTitle() !!} <i class="glyphicon @if (\Input::get('f.order_by', '') == $col->getKey() && \Input::get('f.order_dir', 'ASC') == 'ASC') glyphicon-sort-by-attributes-alt @elseif (\Input::get('f.order_by', '') == $col->getKey() && \Input::get('f.order_dir', 'ASC') == 'DESC') glyphicon-sort-by-attributes @else glyphicon-sort @endif"></i></a>
 							@else
 								{{ $col->getTitle() }}
 							@endif
-						</th>
+                        </th>
 					@else
 						<th data-dg-col="actions"><!-- Actions --></th>
 					@endif
@@ -95,13 +95,12 @@
 
 				@foreach ($grid->getColumns() as $col)
 					<td data-dg-col="{{ $col->getKey() }}" {!! $col->getAttributesHtml() !!}>
-						@if ($row->dataIsNotNull($col->getKey(true)))
-							@if ($col->hasWrapper())
-								{!! $col->wrapper($row->{$col->getKey(true)}, $row) !!}
-							@else
-								{!! $row->{$col->getKey(true)} !!}
-							@endif
-						@endif
+						<?php $value = $row->dataIsNotNull($col->getKey(true)) ? $row->{$col->getKey(true)} : null; ?>
+			            @if ($col->hasWrapper())
+                            {!! $col->wrapper($value, $row) !!}
+			            @else
+                            {!! $value !!}
+                        @endif
 					</td>
 				@endforeach
 			</tr>

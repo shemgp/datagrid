@@ -69,4 +69,22 @@ abstract class Row implements RowInterface {
 
 		throw new CellException('Unsupported data!');
 	}
+
+    /**
+     * Check if traversal of "dot" notation, is not null
+     *
+     * @param $key Key to traverse
+     * @return false if it's null, else true
+     */
+    public function dataIsNotNull($key)
+    {
+        $ptr = $this->data;
+        foreach(explode(".", $key) as $field)
+            if ($ptr->$field !== null)
+                $ptr = $ptr->$field;
+            else
+                return false;
+
+        return true;
+    }
 }

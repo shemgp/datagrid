@@ -289,7 +289,10 @@ class Column {
 		$filters = $this->filters;
 
 		if ($first_blank) {
-			$filters = ['' => '---'] + $filters;
+            if (is_array($filters))
+                $filters = ['' => ''] + $filters;
+            else
+                $filters = [];
 		}
 
 		return $filters;
@@ -306,7 +309,7 @@ class Column {
 		if ($filters instanceof Collection) {
 			$filters = $filters->toArray();
 		}
-		
+
 		$this->filters = $filters;
 
 		return $this;

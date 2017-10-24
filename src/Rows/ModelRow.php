@@ -13,6 +13,8 @@ class ModelRow extends Row {
 
 		// The easiest way to chain the object properties
 		foreach ($keys as $key) {
+			if (!$value)
+				return NULL;
 			$value = $value->{$key};
 		}
 

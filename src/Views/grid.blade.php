@@ -1,17 +1,18 @@
 <div class="dg-wrapper" {!! $id ? 'id="'. $id .'"' : null !!}>
 
-	@if ($grid->hasFilters())
-		{!! Form::open(['role' => 'form', 'method' => 'GET']) !!}
-
-		{!! Form::hidden('f[order_by]', $grid->getFilter('order_by', '')); !!}
-		{!! Form::hidden('f[order_dir]', $grid->getFilter('order_dir', 'ASC')); !!}
-
-		@foreach ($grid->getHiddens() as $name => $value)
-			{!! Form::hidden($name, $value); !!}
-		@endforeach
-	@endif
-
 	<table data-dg-type="table" class="table table-striped table-hover table-bordered">
+
+		@if ($grid->hasFilters())
+			{!! Form::open(['role' => 'form', 'method' => 'GET']) !!}
+
+			{!! Form::hidden('f[order_by]', $grid->getFilter('order_by', '')); !!}
+			{!! Form::hidden('f[order_dir]', $grid->getFilter('order_dir', 'ASC')); !!}
+
+			@foreach ($grid->getHiddens() as $name => $value)
+				{!! Form::hidden($name, $value); !!}
+			@endforeach
+		@endif
+
 		<thead>
 		<!-- Titles -->
 		<tr data-dg-type="titles">
@@ -82,6 +83,10 @@
 		@endif
 		</thead>
 
+		@if ($grid->hasFilters())
+			{!! Form::close() !!}
+		@endif
+
 		<tbody>
 		@forelse($grid->getRows() as $row)
 			<tr data-dg-type="data-row">
@@ -108,10 +113,6 @@
 		@endforelse
 		</tbody>
 	</table>
-
-	@if ($grid->hasFilters())
-		{!! Form::close() !!}
-	@endif
 
 	@if ($grid->hasPagination())
 		<div class="row-fluid text-center">

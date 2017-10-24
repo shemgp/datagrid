@@ -28,7 +28,7 @@
                 "Aginev\\Datagrid\\DatagridServiceProvider"
             ],
             "aliases": {
-                "Datagrid": "Aginev\\Datagrid\\Datagrid",
+                "Datagrid": "Aginev\\Datagrid\\Datagrid"
             }
         }
     }

@@ -121,6 +121,62 @@ class Datagrid {
 	 */
 	public function getRows() {
 		return $this->rows;
+		$filters = clone $this->getfilters(false);
+		$rows = $this->rows;
+
+		// filter rows
+		$just_filters = clone $filters;
+		unset($just_filters['order_by']);
+		unset($just_filters['order_dir']);
+		$non_empty_filter = array_filter((array)$just_filters->all());
+		if (count($non_empty_filter) > 0)
+			$rows = $rows->filter(function ($row) use ($non_empty_filter) {
+				$matches = 0;
+				foreach ($non_empty_filter as $field_key => $field_value)
+				{
+					if (!empty($field_key)
+						&& !empty($non_empty_filter[$field_key])
+						&& preg_match
+							('/'.$non_empty_filter[$field_key].'/i',
+							$this->getFieldValue($field_key, $row)
+						)
+					)
+					{
+						$matches++;
+					}
+				}
+				if ($matches == count($non_empty_filter))
+					return TRUE;
+				return FALSE;
+			});
+
+		// sort rows
+		if (isset($filters['order_by']) && trim($filters['order_by']) !== ''
+				&& isset($filters['order_dir']))
+		{
+			$rows = $rows->sortBy(function ($row) use ($filters) {
+				return $this->getFieldValue($filters['order_by'], $row);
+			}, SORT_REGULAR, $filters['order_dir'] === 'DESC');
+		}
+		return $rows;
+	}
+
+	/**
+	 * Get a value of the dot notation named field from given row
+	 *
+	 * @param $field_name
+	 * @param $row
+	 *
+	 * @return Collection
+	 */
+	public function getFieldValue($field_name, $row)
+	{
+		$params = explode('.', $field_name);
+		foreach($params as $key => $param)
+		{
+			$row = $row->{$param};
+		}
+		return $row;
 	}
 
 	/**
@@ -347,7 +403,7 @@ class Datagrid {
 			$filters->put('order_by', $field);
 			$filters->put('order_dir', 'ASC');
 		}
-		
+
 		$per_page = intval(\Illuminate\Support\Facades\Request::get('per_page', \Config::get('pagination.per_page')));
         	$per_page = $per_page > 0 ? $per_page : \Config::get('pagination.per_page');
 
@@ -536,10 +592,10 @@ class Datagrid {
 
 		return $result;
 	}
-	
+
     /**
      * Current route link
-     * 
+     *
      * @param array $get_params
      * @return string
      */

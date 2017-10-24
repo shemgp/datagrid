@@ -21,5 +21,15 @@
         "illuminate/contracts": "5.*",
         "illuminate/view": "5.*",
 		"laravelcollective/html": "5.*"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Aginev\\Datagrid\\DatagridServiceProvider"
+            ],
+            "aliases": {
+                "Datagrid": "Aginev\\Datagrid\\Datagrid",
+            }
+        }
     }
 }

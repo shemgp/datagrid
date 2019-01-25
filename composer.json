@@ -20,6 +20,6 @@
         "illuminate/support": "5.*",
         "illuminate/contracts": "5.*",
         "illuminate/view": "5.*",
-	"laravelcollective/html": "5.*"
+	"laravelcollective/html": "5.* || dev-5.1-changes"
     }
 }

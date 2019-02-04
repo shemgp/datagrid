@@ -162,7 +162,7 @@ class Datagrid {
 
 	/**
 	 * Get a value of the dot notation named field from given row
-	 * 
+	 *
 	 * @param $field_name
 	 * @param $row
 	 *
@@ -171,9 +171,11 @@ class Datagrid {
 	public function getFieldValue($field_name, $row)
 	{
 		$params = explode('.', $field_name);
-		foreach($params as $key => $param) 
+		foreach($params as $key => $param)
 		{
-			$row = $row->{$param};
+            if ($row) {
+                $row = $row->{$param};
+            }
 		}
 		return $row;
 	}
@@ -402,7 +404,7 @@ class Datagrid {
 			$filters->put('order_by', $field);
 			$filters->put('order_dir', 'ASC');
 		}
-		
+
 		$per_page = intval(\Illuminate\Support\Facades\Request::get('per_page', \Config::get('pagination.per_page')));
         	$per_page = $per_page > 0 ? $per_page : \Config::get('pagination.per_page');
 
@@ -591,10 +593,10 @@ class Datagrid {
 
 		return $result;
 	}
-	
+
     /**
      * Current route link
-     * 
+     *
      * @param array $get_params
      * @return string
      */
